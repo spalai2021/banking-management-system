@@ -1,5 +1,6 @@
 package com.bank.sbi.dto;
 
+import com.bank.sbi.entity.Address;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -19,4 +20,5 @@ public class CustomerDTO {
     private LocalDate dateOfBirth;
     private String panNumber;
     private String aadhaarNumber;
+    private Address address;
 }

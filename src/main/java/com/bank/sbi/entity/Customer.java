@@ -36,4 +36,8 @@ public class Customer {
 
     @Column(name = "aadhaar_number")
     private String aadhaarNumber;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="address_id")
+    private Address address;
 }
