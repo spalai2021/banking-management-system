@@ -81,4 +81,9 @@ public class CustomerServiceImpl implements CustomerService {
     public Optional<Customer> checkCustomerExist(Long customerId) {
         return customerRepository.findById(customerId);
     }
+
+    @Override
+    public Optional<Customer> checkExistingCustomer(Long mobileNo) {
+        return  customerRepository.findByMobile(mobileNo);
+    }
 }

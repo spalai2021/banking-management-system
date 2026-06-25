@@ -18,4 +18,6 @@ public interface CustomerService {
     Customer updateCustomer(CustomerDTO customerDTO);
 
     Optional<Customer> checkCustomerExist(Long customerId);
+
+    Optional<Customer> checkExistingCustomer(Long mobileNo);
 }

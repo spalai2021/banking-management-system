@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -26,7 +27,7 @@ public class Customer {
 
     private String email;
 
-    private String mobile;
+    private Long mobile;
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
@@ -40,4 +41,7 @@ public class Customer {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="address_id")
     private Address address;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Account> account;
 }

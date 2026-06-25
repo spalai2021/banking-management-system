@@ -16,7 +16,7 @@ public class CustomerDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private String mobile;
+    private Long mobile;
     private LocalDate dateOfBirth;
     private String panNumber;
     private String aadhaarNumber;
