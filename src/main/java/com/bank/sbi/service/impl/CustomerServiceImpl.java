@@ -3,13 +3,14 @@ package com.bank.sbi.service.impl;
 import com.bank.sbi.dto.CustomerDTO;
 import com.bank.sbi.entity.Address;
 import com.bank.sbi.entity.Customer;
+import com.bank.sbi.exception.CustomerAlreadyExistsException;
+import com.bank.sbi.exception.CustomerNotFoundException;
 import com.bank.sbi.repository.CustomerRepository;
 import com.bank.sbi.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -19,6 +20,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer createCustomer(CustomerDTO customerDTO) {
+
+        customerRepository.findByMobile(customerDTO.getMobile())
+                .ifPresent(customer -> {
+                    throw new CustomerAlreadyExistsException(
+                            "Customer already exists with mobile number: "
+                                    + customerDTO.getMobile());
+                });
 
         Customer customer = new Customer();
         customer.setCustomerId(customerDTO.getCustomerId());
@@ -48,8 +56,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Optional<Customer> getCustomerByCustomerId(Long customerId) {
-        return customerRepository.findById(customerId);
+    public Customer getCustomerByCustomerId(Long customerId) {
+        return customerRepository.findById(customerId).orElseThrow(()-> new CustomerNotFoundException("Customer Not Found."));
     }
 
     @Override
@@ -78,12 +86,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Optional<Customer> checkCustomerExist(Long customerId) {
-        return customerRepository.findById(customerId);
+    public Customer checkCustomerExist(Long customerId) {
+        return customerRepository.findById(customerId).orElseThrow(()->new CustomerNotFoundException("Customer does not exist."));
     }
 
     @Override
-    public Optional<Customer> checkExistingCustomer(Long mobileNo) {
-        return  customerRepository.findByMobile(mobileNo);
+    public Customer checkExistingCustomer(Long mobileNo) {
+        return  customerRepository.findByMobile(mobileNo).orElseThrow(()->new CustomerNotFoundException("Customer Not found with this mobile number."));
+
     }
 }

@@ -11,13 +11,13 @@ public interface CustomerService {
 
     List<Customer> getAllCustomers();
 
-    Optional<Customer> getCustomerByCustomerId(Long customerId);
+    Customer getCustomerByCustomerId(Long customerId);
 
     void deleteCustomer(Long customerId);
 
     Customer updateCustomer(CustomerDTO customerDTO);
 
-    Optional<Customer> checkCustomerExist(Long customerId);
+    Customer checkCustomerExist(Long customerId);
 
-    Optional<Customer> checkExistingCustomer(Long mobileNo);
+    Customer checkExistingCustomer(Long mobileNo);
 }

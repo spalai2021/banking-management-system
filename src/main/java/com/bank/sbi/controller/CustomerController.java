@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/customer-service")
@@ -36,30 +35,22 @@ public class CustomerController {
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<?> getCustomerByCustomerId(@PathVariable("customerId") Long customerId){
-        Optional<Customer> customer =  customerService.getCustomerByCustomerId(customerId);
-        if (customer.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(customer);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body("Customer does not exist with customer id: "+customerId +": Please enter correct customer id");
+        Customer customer =  customerService.getCustomerByCustomerId(customerId);
+        return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
 
     @DeleteMapping("/customer/{customerId}")
     public ResponseEntity<?> deleteCustomer(@PathVariable("customerId") Long customerId) {
-        Optional<Customer> customerExist = customerService.checkCustomerExist(customerId);
-        if (customerExist.isPresent()) {
-            customerService.deleteCustomer(customerId);
-            return ResponseEntity.status(HttpStatus.OK).body("Customer deleted with customer id: " + customerId);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body("Customer does not exist with customer id: "+customerId +": Please enter correct customer id");
+        customerService.checkCustomerExist(customerId);
+        customerService.deleteCustomer(customerId);
+        return ResponseEntity.status(HttpStatus.OK).body("Customer deleted with customer id: " + customerId);
+
     }
 
     @PatchMapping("/customer/{customerId}")
     public ResponseEntity<?> UpdateCustomer(@PathVariable("customerId") Long customerId, @RequestBody CustomerDTO customerDTO) {
-        Optional<Customer> customerExist = customerService.checkCustomerExist(customerId);
-        if (customerExist.isPresent()) {
-            Customer customer = customerService.updateCustomer(customerDTO);
-            return ResponseEntity.status(HttpStatus.OK).body("Customer Updated with customer id: " + customerId + ":" + customer);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body("Customer does not exist with customer id: " + customerId + ": Please enter correct customer id");
-    }
+        customerService.checkCustomerExist(customerId);
+        Customer customer = customerService.updateCustomer(customerDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("Customer Updated with customer id: " + customerId + ":" + customer);
+}
 }

@@ -8,7 +8,6 @@ import com.bank.sbi.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -24,13 +23,10 @@ public class AccountController {
 
     @PostMapping("account/{mobileNo}")
     public ResponseEntity<?> createAccount(@PathVariable Long mobileNo , @RequestBody AccountDTO accountDTO){
-        Optional<Customer> customer = customerService.checkExistingCustomer(mobileNo);
-        if(customer.isPresent()){
-            Customer existingCustomer = customer.get();
-            accountDTO.setCustomer(existingCustomer);
+        Customer customer = customerService.checkExistingCustomer(mobileNo);
+            accountDTO.setCustomer(customer);
             Account account = accountService.createAccount(accountDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(account);
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body("You are the new Customer. May i Help You!");
+
     }
 }
