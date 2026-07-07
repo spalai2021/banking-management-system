@@ -29,4 +29,11 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.CREATED).body(account);
 
     }
+
+    @GetMapping("account/{account_number}")
+    public ResponseEntity<?> getAccount(@PathVariable Long account_number){
+        Optional<Account> account = accountService.getAccountDetailsByAccountNo(account_number);
+        return ResponseEntity.status(HttpStatus.CREATED).body(account);
+
+    }
 }

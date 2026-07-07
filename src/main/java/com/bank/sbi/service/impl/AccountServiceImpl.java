@@ -7,6 +7,7 @@ import com.bank.sbi.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -25,6 +26,12 @@ public class AccountServiceImpl implements AccountService {
         account.setAccountType(accountDTO.getAccountType());
         account.setCustomer(accountDTO.getCustomer());
         accountRepository.save(account);
+        return account;
+    }
+
+    @Override
+    public Optional<Account> getAccountDetailsByAccountNo(Long accountNo) {
+        Optional<Account> account = accountRepository.findById(accountNo);
         return account;
     }
 
